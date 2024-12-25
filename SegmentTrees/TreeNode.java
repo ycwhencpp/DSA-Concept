@@ -8,9 +8,9 @@ public class TreeNode implements NodeInterface {
 
     private int data;
 
-    private NodeInterface rightNode;
+    private TreeNode rightNode;
     
-    private NodeInterface leftNode;
+    private TreeNode leftNode;
 
 
     public TreeNode (int _startRange,  int _endRange, int _data) {
@@ -21,7 +21,7 @@ public class TreeNode implements NodeInterface {
         this.leftNode = null;
     }
 
-    public TreeNode (int _startRange,  int _endRange, int _data, NodeInterface _rightNode, NodeInterface _leftNode) {
+    public TreeNode (int _startRange,  int _endRange, int _data, TreeNode _rightNode, TreeNode _leftNode) {
         this.startRange = _startRange;
         this.endRange = _endRange;
         this.data = _data;
@@ -46,19 +46,19 @@ public class TreeNode implements NodeInterface {
         System.out.println(str);
     }
 
-    public NodeInterface getLeftNode(){
+    public TreeNode getLeftNode(){
         return this.leftNode;
     }
 
-    public void setLeftNode(NodeInterface node){
+    public void setLeftNode(TreeNode node){
         this.leftNode = node;
     }
 
-    public NodeInterface getRightNode(){
+    public TreeNode getRightNode(){
         return this.rightNode;
     }
 
-    public void setRightNode(NodeInterface node){
+    public void setRightNode(TreeNode node){
         this.rightNode = node;
     }
 

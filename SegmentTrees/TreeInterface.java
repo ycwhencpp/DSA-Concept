@@ -2,9 +2,9 @@ package SegmentTrees;
 
 public interface TreeInterface {
 
-    public NodeInterface construct(int[] arr);
+    public void construct(int[] arr);
 
-    public void update(NodeInterface node, int data);
+    public void update(int index, int data) throws Exception;
 
     public void displayTree();
 
