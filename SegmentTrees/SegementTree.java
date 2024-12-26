@@ -4,6 +4,10 @@ public class SegementTree implements TreeInterface {
 
     TreeNode root;
 
+    public SegementTree(int[] arr){
+        construct(arr);
+    }
+
     @Override
     public void construct(int[] arr) {
         root = buildTree(arr, 0, arr.length-1);
@@ -15,11 +19,11 @@ public class SegementTree implements TreeInterface {
     }
 
     @Override
-    public void update(int index, int data) throws Exception {
-        if(this.root.startRange> index || this.root.endRange < index){
+    public int update(int index, int data) throws Exception {
+        if(!isValidIndex(index, index)){
             throw new Exception("Invalid Index provided");
         }
-        _updateNode(this.root, index, data);
+        return _updateNode(this.root, index, data);
     }
 
     private TreeNode buildTree(int[] arr, int startIndex, int endIndex) {
@@ -62,13 +66,43 @@ public class SegementTree implements TreeInterface {
 
     }
 
-    private void _updateNode(TreeNode root, int index, int data){
-        if(root.startRange == index || root.endRange == index){
-            root.setData(data);
-            return;
+    private int _updateNode(TreeNode root, int index, int data){
+        if(root.startRange <= index && root.endRange >= index) {
+            if(root.startRange == index || root.endRange == index){
+                root.setData(data);
+                return root.getData();
+            }
+
+            int left = _updateNode(root.getLeftNode(), index, data);
+            int right = _updateNode(root.getRightNode(), index, data);
+
+            root.setData(left+right);
+            return right+left;
         }
-        if(root.getLeftNode() != null) _updateNode(root.getLeftNode(), index, data);
-        if(root.getRightNode() != null) _updateNode(root.getRightNode(), index, data);
+        return root.getData();
+        
+    }
+
+
+    public int query(int startIndex, int endIndex) throws Exception{
+        if(!isValidIndex(startIndex, endIndex)) throw new Exception("Invalid Index Provided");
+        return _query(this.root, startIndex, endIndex);
+    }
+
+    private int _query(TreeNode root, int startIndex, int endIndex){
+        int si = root.startRange;
+        int ei = root.endRange;
+        if (si >= startIndex && ei <= endIndex) { // a chunk since its range is inside my target range
+            return root.getData();
+        } else if(ei < startIndex || si > endIndex) { //out of bound
+            return 0;
+        } else{
+            return _query(root.getLeftNode(), startIndex, endIndex) + _query(root.getRightNode(), startIndex, endIndex);
+        }
+    }
+
+    private boolean isValidIndex(int start, int end){
+        return !(this.root.startRange> start || this.root.endRange < end);
     }
     
 }
